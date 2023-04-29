@@ -4,8 +4,8 @@ body {
 
 /* styling the playable area i the CSS*/ 
 .grid {
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
     border: 1px solid red;
     margin: 0 auto;
     display: flex;
@@ -13,8 +13,8 @@ body {
 }
 /* now we style the indiciducla pieces of the playanle area */
 .grid div {
-    width:20px;
-    height:20px
+    width:30px;
+    height: 30px
 }
 /* snake apple and popup generated in JS Script*/
 .snake {
