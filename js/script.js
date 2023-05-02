@@ -24,11 +24,16 @@ let intervalTime = 0;
 let interval = 0;
 
 //event listeners go here
+playAgainBtn.addEventListener('click', init);
+
 
 // functions to be used
 // basically acts as the render to load up the game. Will replace with proper render function as this is currently breaking my code
+init();
+
 function init() {
-    let squares= document.querySelectorAll('.grid div');
+    let squares= document.querySelectorAll('.grid');
+    render();
     //random apples initiates
     randomApples(squares);
     direction = 1;
@@ -39,12 +44,6 @@ function init() {
     currentSnake.forEach((index) => squares[index].classList.add('snake'));
     interval = setInterval(moveOutcome, intervalTime);
 }
-document.addEventListener('DOMContentLoaded', function(){
-    document.addEventListener('keyup', control);
-    createBoard();
-    startGame();
-    playAgain.addEventListener('click', replay);
-})
 
 function renderBoard() {
 //close the popup
@@ -55,6 +54,7 @@ function renderBoard() {
         grid.appendChild(div);
     }
 }
+
 
 //check if we hit a barrier or anything else
 function moveOutcome() {
@@ -82,75 +82,75 @@ function moveSnakes(squares) {
 
 function checkForHits(squares) {
     if(
-       // checks to see if next move would place snake out of board
+        // checks to see if next move would place snake out of board
         (currentSnake[0] + width >= width*width && direction === width) ||
         (currentSnake[0] - width <= 0 && direction === -width) ||
-       // checks to see the corners  (all corner divs end in 9)
+        // checks to see the corners  (all corner divs end in 9)
         (currentSnake[0] % width === width -1 && direction === 1) ||
         (currentSnake[0] % width === 0 && direction === -1)||
-       //checks to see if snake is hitting itself
+        //checks to see if snake is hitting itself
         squares[currentSnake[0] + directon].classList.contains('snake')
-    ){
-        return true;
-    } else {
-        return false;
+        ){
+            return true;
+        } else {
+            return false;
+        }
     }
-}
-
-function eatApple(sqaures, tail) {
-    //checks if snake is hitting an apple
-    if (squares[currentSnake[0]].classList.contains('apples')) {
-       // executes function to remove the apple from board and make the snake bigger
-        squares[currentSnake[0]].classList.remove('apple');
-        squares[tail].classList.add('snake');
-        currentSnake.push(tail);
-        // put another apple on board in new random location
-        randomApples(square);
-        // increase score and update UI Display
-        score++;
-        scoreDisplay.textContent = score;
-        // update the time interval to increase snake speed
-        clearInterval(intreval);
-        intervalTime = intervalTime * speed;
-        interval = setInterval(moveOutcome, intervalTime);
+    
+    
+    function eatApple(sqaures, tail) {
+        //checks if snake is hitting an apple
+        if (squares[currentSnake[0]].classList.contains('apples')) {
+            // executes function to remove the apple from board and make the snake bigger
+            squares[currentSnake[0]].classList.remove('apple');
+            squares[tail].classList.add('snake');
+            currentSnake.push(tail);
+            // put another apple on board in new random location
+            randomApples(square);
+            // increase score and update UI Display
+            score++;
+            scoreDisplay.textContent = score;
+            // update the time interval to increase snake speed
+            clearInterval(intreval);
+            intervalTime = intervalTime * speed;
+            interval = setInterval(moveOutcome, intervalTime);
+        }
     }
-}
-
-function randomApples(squares) {
-    do {
-        //make a new random apple
-        appleIndex = Math.floor(Math.random() * squares.length);
-        //tells code to make new apple when a snake takes the previous one.
-    } while (square[appleIndex].classList.contains('snake'));
-    squares[appleIndex].classList.add('apple')
-}
-
-//UI Controls Creation
-// keyboard controls
-function control(e) {
-    if (e.keycode === 39) {
-        direction = 1; //right 1 div
-    } else if (e.keycode === 38) {
-        direction = -width; // move ten divs up
-    } else if (e.keycode === 37) {
-        direction = -1; //left 1 div 
-    } else if (e.keycode === 40) {
-        direction = +width; // move 10 divs down instantly
+    
+    function renderApples(squares) {
+        do {
+            //make a new random apple
+            appleIndex = Math.floor(Math.random() * squares.length);
+            //tells code to make new apple when a snake takes the previous one.
+        } while (square[appleIndex].classList.contains('snake'));
+        squares[appleIndex].classList.add('apple')
     }
-}
-
-// mobile device controls need to make media query in CSS so these only appear when we are on mobile
-
-up.addEventListener('click', () => (direction = -width));
-bottom.addEventListener('click', () => (direction = +width));
-left.addEventListener('click', () => (direction = -1));
-right.addEventListener('click', () =>(direction = 1));
-
-//and finally a replay button
-
-function replay(){
-    grid.innerHTML = '';
-    createBoard();
-    startGame();
-    popup.style.display = 'none'
+    
+    //UI Controls Creation
+    // keyboard controls
+    function renderControls(e) {
+        if (e.keycode === 39) {
+            direction = 1; //right 1 div
+        } else if (e.keycode === 38) {
+            direction = -width; // move ten divs up
+        } else if (e.keycode === 37) {
+            direction = -1; //left 1 div 
+        } else if (e.keycode === 40) {
+            direction = +width; // move 10 divs down instantly
+        }
+    }
+    //render function to activate all render functions
+    function render() {
+        renderBoard();
+        renderControls();
+        renderApples();
+      }
+    
+    //and finally a replay button
+    // turn this into an interactive replay button using event listener
+    
+    function replay(){
+        grid.innerHTML = '';
+        init();
+        popup.style.display = 'none'
 }
