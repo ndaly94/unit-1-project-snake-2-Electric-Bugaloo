@@ -1,4 +1,5 @@
 // set the variables
+// sets the game up to start
 let grid= document.querySelector('.grid');
 let popup = document.querySelector('.popup');
 let playAgain = document.querySelector('.playAgain');
@@ -7,34 +8,26 @@ let left = document.querySelector('.left');
 let right = document.querySelector('.right');
 let bottom = document.querySelector('bottom');
 let up = document.querySelector('up');
+// width sets our left to right movement
 let width = 10;
+// establish index's for the snake and the apples so we can count
 let currentIndex = 0;
 let appleIndex = 0;
+// set snake lives
 let currentSnake = [2, 1, 0];
+// up basically equals 1 logically
 let direction = 1;
 let score = 0;
+// speed will increase as snake gets bigger, the intervalTime = interval*speed
 let speed = 0.8;
 let intervalTime = 0;
-let interval = 0
+let interval = 0;
+
+//event listeners go here
 
 // functions to be used
-document.addEventListener('DOMContentLoaded', function(){
-    document.addEventListener('keyup', control);
-    createBoard();
-    startGame();
-    playAgain.addEventListener('click', replay);
-})
-
-function createBoard() {
-//close the popup
-    popup.style.display = 'none';
-// initiats a 10x10 board
-    for(let i = 0; 1<100; i++) {
-        let div = document.createElement('div');
-        grid.appendChild(div);
-    }
-}
-function startGame() {
+// basically acts as the render to load up the game. Will replace with proper render function as this is currently breaking my code
+function init() {
     let squares= document.querySelectorAll('.grid div');
     //random apples initiates
     randomApples(squares);
@@ -45,6 +38,22 @@ function startGame() {
     currentIndex= 0;
     currentSnake.forEach((index) => squares[index].classList.add('snake'));
     interval = setInterval(moveOutcome, intervalTime);
+}
+document.addEventListener('DOMContentLoaded', function(){
+    document.addEventListener('keyup', control);
+    createBoard();
+    startGame();
+    playAgain.addEventListener('click', replay);
+})
+
+function renderBoard() {
+//close the popup
+    popup.style.display = 'none';
+// initiats a 10x10 board
+    for(let i = 0; 1<100; i++) {
+        let div = document.createElement('div');
+        grid.appendChild(div);
+    }
 }
 
 //check if we hit a barrier or anything else
@@ -130,7 +139,7 @@ function control(e) {
     }
 }
 
-// mobile device controls
+// mobile device controls need to make media query in CSS so these only appear when we are on mobile
 
 up.addEventListener('click', () => (direction = -width));
 bottom.addEventListener('click', () => (direction = +width));
