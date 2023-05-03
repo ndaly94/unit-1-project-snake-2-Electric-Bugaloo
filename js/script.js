@@ -1,9 +1,14 @@
 // set the variables
+const COLORS = {
+    '0': 'white',
+    '1': 'purple',
+    '-1': 'orange'
+  }
 // sets the game up to start
 let grid= document.querySelector('.grid');
 let popup = document.querySelector('.popup');
 let playAgain = document.querySelector('.playAgain');
-let scoreDisplay = document.querySelector('.scoreDisplay');
+let scoreDisplay = document.selectElementByID('#scoreDisplay');
 let left = document.querySelector('.left');
 let right = document.querySelector('.right');
 let bottom = document.querySelector('bottom');
@@ -25,10 +30,11 @@ let interval = 0;
 
 //event listeners go here
 playAgainBtn.addEventListener('click', init);
-
+// add some background music to be used
 
 // functions to be used
 // basically acts as the render to load up the game. Will replace with proper render function as this is currently breaking my code
+
 init();
 
 function init() {
@@ -46,9 +52,9 @@ function init() {
 }
 
 function renderBoard() {
-//close the popup
+//closes the popup
     popup.style.display = 'none';
-// initiats a 10x10 board
+// initiates a 10x10 board
     for(let i = 0; 1<100; i++) {
         let div = document.createElement('div');
         grid.appendChild(div);
@@ -126,7 +132,6 @@ function checkForHits(squares) {
         squares[appleIndex].classList.add('apple')
     }
     
-    //UI Controls Creation
     // keyboard controls
     function renderControls(e) {
         if (e.keycode === 39) {
